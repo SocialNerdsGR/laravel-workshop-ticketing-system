@@ -11,7 +11,6 @@ class TicketsController extends Controller
 
     public function __construct()
     {
-        $this->authorizeResource(Ticket::class, 'ticket');
     }
 
     /**
