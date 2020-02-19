@@ -11,7 +11,6 @@ class TicketsController extends Controller
 
     public function __construct()
     {
-        $this->authorizeResource(Ticket::class, 'ticket');
     }
 
     /**
@@ -32,7 +31,6 @@ class TicketsController extends Controller
      */
     public function create()
     {
-        return view('tickets.create');
     }
 
     /**
@@ -43,18 +41,6 @@ class TicketsController extends Controller
      */
     public function store(Request $request)
     {
-        $validatedData = $request->validate([
-            'title' => 'required|min:5|unique:tickets',
-            'content' => 'required|max:255'
-        ]);
-
-        $ticket = Ticket::create([
-            'user_id' => Auth::user()->id,
-            'title' => $validatedData['title'],
-            'content' => $validatedData['content']
-        ]);
-
-        return redirect(action('TicketsController@show', ['ticket' => $ticket->id]));
     }
 
     /**
@@ -65,8 +51,6 @@ class TicketsController extends Controller
      */
     public function show(Ticket $ticket)
     {
-        $replies = $ticket->replies()->with('user')->latest()->paginate(5);
-        return view('tickets.show', compact('ticket', 'replies'));
     }
 
     /**
@@ -77,7 +61,6 @@ class TicketsController extends Controller
      */
     public function edit(Ticket $ticket)
     {
-        return view('tickets.edit', ['ticket' => $ticket]);
     }
 
     /**
@@ -89,15 +72,6 @@ class TicketsController extends Controller
      */
     public function update(Request $request, Ticket $ticket)
     {
-        $validatedData = request()->validate([
-            'title' => 'required|min:5|unique:tickets,title,' . $ticket->id,
-            'content' => 'required|max:255'
-        ]);
-
-        $ticket->fill($validatedData);
-        $ticket->save();
-
-        return redirect(action('TicketsController@edit', ['ticket' => $ticket->id]));
     }
 
     /**
@@ -108,7 +82,5 @@ class TicketsController extends Controller
      */
     public function destroy(Ticket $ticket)
     {
-        $ticket->delete();
-        return redirect(action('TicketsController@index'));
     }
 }
