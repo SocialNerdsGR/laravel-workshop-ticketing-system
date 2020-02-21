@@ -11,7 +11,6 @@ class RepliesController extends Controller
 {
     public function __construct()
     {
-        $this->authorizeResource(Reply::class, 'reply');
     }
     /**
      * Store a newly created resource in storage.
@@ -42,7 +41,5 @@ class RepliesController extends Controller
      */
     public function destroy(Ticket $ticket, Reply $reply)
     {
-        $reply->delete();
-        return back();
     }
 }
