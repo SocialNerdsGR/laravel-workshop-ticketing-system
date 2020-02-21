@@ -65,7 +65,7 @@ class TicketsController extends Controller
      */
     public function show(Ticket $ticket)
     {
-        $replies = $ticket->replies()->with('user')->latest()->paginate(5);
+        $replies = $ticket->replies()->paginate(5);
         return view('tickets.show', compact('ticket', 'replies'));
     }
 
