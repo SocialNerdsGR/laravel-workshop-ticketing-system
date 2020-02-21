@@ -23,13 +23,11 @@
 <div>
   @foreach($replies as $reply)
   <div>
-    @can('delete', $reply)
     <form method="POST" action="{{action('RepliesController@destroy', ['ticket' => $ticket->id, 'reply' => $reply->id])}}">
       @csrf
       @method('DELETE')
       <input type="submit" value="Delete">
     </form>
-    @endcan
     <h5>Author: {{$reply->user->name}}</h5>
     <strong>{{$reply->created_at->format('D m M Y')}}</strong>
     <p>{{$reply->reply}}</p>

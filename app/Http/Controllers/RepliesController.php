@@ -11,7 +11,6 @@ class RepliesController extends Controller
 {
     public function __construct()
     {
-        $this->authorizeResource(Reply::class, 'reply');
     }
     /**
      * Store a newly created resource in storage.
