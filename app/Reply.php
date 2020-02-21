@@ -17,9 +17,4 @@ class Reply extends Model
     {
         return $this->belongsTo(User::class);
     }
-
-    public function scopeLatest($query)
-    {
-        return $query->orderBy('created_at', 'DESC');
-    }
 }
