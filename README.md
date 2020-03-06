@@ -5,7 +5,7 @@
 -   [Hello world exercise](#hello-world-exercise)
 -   [Route parameter exercise](#route-parameter-exercise)
 -   [Controller exercise](#controller-exercise)
--   Blade exercise
+-   [View exercise](#view-exercise)
 -   Login form exercise
 -   Ticketing system app
     -   [Installation](#clone-project)
@@ -29,6 +29,8 @@
 `composer create-project --prefer-dist laravel/laravel name`
 
 ### Routing
+
+#### Requirements
 
 Define a new route using the `Route` facade. For example to create a `get` route with the url `hello` you have to write.
 
@@ -60,6 +62,100 @@ Route::get('hello', function() {
 </details>
 
 ### Route parameter exercise
+
+-   Create `hello` get route and accept a `name` parameters as string
+-   Return name parameter
+
+#### Hints
+
+-   Open routes/web.php
+-   Use Route facade
+-   Define `{name}` as parameter
+
+<details><summary>Solution</summary>
+<p>
+
+```php
+Route::get('hello/{name}', function(string $name) {
+  return $name;
+});
+```
+
+</p>
+</details>
+
+### Controller exercise
+
+-   Generate a controller
+-   Register a route that accepts two numbers as parameters
+-   Return the sum of the parameters
+
+#### Hints
+
+-   `php artisan make:controller ControllerName`
+-   Use Route facade
+-   Define `{a}` and `{b}` as parameters
+
+<details><summary>Solution</summary>
+<p>
+
+**terminal**
+
+`php artisan make:controller ExampleController`
+
+**routes/web.php**
+
+```php
+Route::get('{a}/{b}', 'ExampleController@sum');
+```
+
+**app/http/Controllers/ExampleController**
+
+```php
+public function sum(int $a, int $b) {
+  return $a + $b;
+}
+```
+
+</p>
+</details>
+
+### View exercise
+
+#### Requirements
+
+-   Create a get route and accept `name` as parameter
+-   Return a view with and pass the name parameter
+-   Render `Hello,` and the name
+
+#### Hints
+
+-   Use Route facade
+-   Define `{name}` as parameter
+-   Create a blade file inside `resources/views` folder
+-   Return the blade file from the previous step using `view('view_name', ['name' => $name])` helper
+
+<details><summary>Solution</summary>
+<p>
+
+**routes/web.php**
+
+```php
+Route::get('{name}', function(string $name) {
+  return view('hello', ['name' => $name])
+});
+```
+
+**resources/views/hello.blade.php**
+
+```php
+<h1>Hello, {{$name}}</h1>
+```
+
+</p>
+</details>
+
+## Ticketing system
 
 ### Clone project
 
