@@ -30,18 +30,6 @@
 
 `composer create-project --prefer-dist laravel/laravel name`
 
-### Routing
-
-#### Requirements
-
-Define a new route using the `Route` facade. For example to create a `get` route with the url `hello` you have to write.
-
-**`routes/web.php`**
-
-```php
-Route::get(url, closure);
-```
-
 ### Hello world exercise
 
 Create a get route for the `hello` URL and return `Hello, world`.
@@ -50,6 +38,10 @@ Create a get route for the `hello` URL and return `Hello, world`.
 
 -   Open routes/web.php
 -   Use Route facade
+
+```php
+Route::get(url, closure);
+```
 
 <details><summary>Solution</summary>
 <p>
