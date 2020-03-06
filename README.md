@@ -1,78 +1,988 @@
-<p align="center"><img src="https://res.cloudinary.com/dtfbvvkyp/image/upload/v1566331377/laravel-logolockup-cmyk-red.svg" width="400"></p>
+# Laravel notes
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/d/total.svg" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/v/stable.svg" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/license.svg" alt="License"></a>
+-   [Create a new Laravel project](#new-project)
+-   [Routing](#routing)
+-   [Hello world exercise](#hello-world-exercise)
+-   [Route parameter exercise](#route-parameter-exercise)
+-   [Controller exercise](#controller-exercise)
+-   Blade exercise
+-   Login form exercise
+-   Ticketing system app
+    -   [Installation](#clone-project)
+    -   [Ticket model and migration](#ticket-model-and-migration)
+    -   [Render tickets](#render-tickets)
+    -   [Create ticket form](#create-ticket-form)
+    -   [Create form errors](#create-form-errors)
+    -   [Create form errors](#create-form-errors)
+    -   [Show ticket view](#show-ticket-view)
+    -   [Delete ticket](#delete-ticket)
+    -   [Update ticket policy](#update-ticket-policy)
+    -   [Reply model](#reply-model)
+    -   [Reply model relationships](#reply-model-relationships)
+    -   [Render replies](#render-replies)
+    -   [Store reply](#store-reply)
+    -   [Delete reply](#delete-reply)
+    -   [Reply policy](#reply-policy)
+
+### New project
+
+`composer create-project --prefer-dist laravel/laravel name`
+
+### Routing
+
+Define a new route using the `Route` facade. For example to create a `get` route with the url `hello` you have to write.
+
+**`routes/web.php`**
+
+```php
+Route::get(url, closure);
+```
+
+### Hello world exercise
+
+Create a get route for the `hello` URL and return `Hello, world`.
+
+#### Hints
+
+-   Open routes/web.php
+-   Use Route facade
+
+<details><summary>Solution</summary>
+<p>
+
+```php
+Route::get('hello', function() {
+  return 'Hello, world';
+});
+```
+
 </p>
+</details>
 
-## About Laravel
+### Route parameter exercise
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+### Clone project
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+-   `git clone --branch installation https://github.com/SocialNerdsGR/laravel-workshop-ticketing-system.git ticketing-app`
+-   `cd ticketing-app`
+-   `cp .env.example .env`
+-   `composer install`
+-   `php artisan key:generate`
+-   `touch database/database.sqlite`
+-   `Change DB_CONNECTION variable on .env file from DB_CONNECTION=mysql to DB_CONNECTION=sqlite`
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+### Ticket model and migration
 
-## Learning Laravel
+#### Requirements
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+-   Generate Model and Migration files using artisan
+-   Ticket fields
+    -   type: unsignedBigInteger, name: user_id (foreign key)
+    -   type: string, name: title
+    -   type: text, name: text
+-   Create 2 tickets using `Tinker`
+    -   Use `Ticket::create()` method
+-   User relationship on Ticket model
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1500 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+#### Hints
 
-## Laravel Sponsors
+-   `php artisan make:model Name --migration (-m)`
+-   `foreign('field_name')->references('table_id')->on('table')`
+-   `php artisan migrate`
+-   `php artisan tinker`
+-   `protected $fillable = ['field_name', 'field_name']`
+-   `return $this->belongsTo(Model::class)`
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+<details><summary>Solution</summary>
+<p>
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[British Software Development](https://www.britishsoftware.co)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- [UserInsights](https://userinsights.com)
-- [Fragrantica](https://www.fragrantica.com)
-- [SOFTonSOFA](https://softonsofa.com/)
-- [User10](https://user10.com)
-- [Soumettre.fr](https://soumettre.fr/)
-- [CodeBrisk](https://codebrisk.com)
-- [1Forge](https://1forge.com)
-- [TECPRESSO](https://tecpresso.co.jp/)
-- [Runtime Converter](http://runtimeconverter.com/)
-- [WebL'Agence](https://weblagence.com/)
-- [Invoice Ninja](https://www.invoiceninja.com)
-- [iMi digital](https://www.imi-digital.de/)
-- [Earthlink](https://www.earthlink.ro/)
-- [Steadfast Collective](https://steadfastcollective.com/)
-- [We Are The Robots Inc.](https://watr.mx/)
-- [Understand.io](https://www.understand.io/)
-- [Abdel Elrafa](https://abdelelrafa.com)
-- [Hyper Host](https://hyper.host)
-- [Appoly](https://www.appoly.co.uk)
-- [OP.GG](https://op.gg)
+**create_tickets_table.php**
 
-## Contributing
+```php
+public function up()
+{
+  Schema::create('tickets', function (Blueprint $table) {
+    $table->bigIncrements('id');
+    $table->unsignedBigInteger('user_id');
+    $table->foreign('user_id')->references('id')->on('users');
+    $table->string('title');
+    $table->text('content');
+    $table->timestamps();
+  });
+}
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+**Ticket.php**
 
-## Code of Conduct
+```php
+class Ticket extends Model
+{
+  protected $fillable = ['title', 'content', 'user_id'];
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+  public function user()
+  {
+    return $this->belongsTo(User::class);
+  }
+}
+```
 
-## Security Vulnerabilities
+</p>
+</details>
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+### Render tickets
 
-## License
+#### Requirements
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+-   Create a new folder named `tickets` inside resources
+-   Create `index.blade.php` file
+-   Implement `index` method on TicketsController
+    -   Load tickets using `paginate()` method
+    -   Return `index` view passing tickets as parameter
+-   Render tickets
+    -   Extend app layout
+    -   title -> link to /tickets/{ticketId} using `action` helper
+    -   render pagination links using `links()` method
+
+#### Hints
+
+-   `Ticket::paginate(PER_PAGE)`
+-   `view('view_name', ['key' => $value])`
+-   `@extends('view_name')`
+-   `@section('section_name') @endsection`
+-   `@foreach`
+-   `action('ControllerName@method', ['key' => $value])`
+
+<details><summary>Solution</summary>
+<p>
+
+**TicketsController.php**
+
+```php
+public function index()
+{
+    $tickets = Ticket::paginate(10);
+    return view('tickets.index', ['tickets' => $tickets]);
+}
+```
+
+**resources/tickets/index.blade.php**
+
+```php
+@extends('layouts.app')
+
+@section('content')
+<h2>Tickets</h2>
+<ul>
+  @foreach($tickets as $ticket)
+  <li><a href={{action('TicketsController@show', ['ticket' => $ticket->id])}}>{{$ticket->title}}</a></li>
+  @endforeach
+</ul>
+{{$tickets->links()}}
+@endsection
+```
+
+</p>
+</details>
+
+### Create Ticket form
+
+#### Requirements
+
+-   Create a link on `index.blade.php` targeting create method on TicketsController using `action` helper
+-   Create `create.blade.php` inside tickets folder
+-   Extend layout
+-   Implement new ticket form
+    -   form
+    -   method
+    -   action
+    -   Title input
+    -   Contnent textarea
+    -   Submit button
+
+#### Hints
+
+-   `@extend('view_name')`
+-   `action('ControllerName@method')`
+-   `@csrf`
+-   Name attribute on form fields
+
+<details><summary>Solution</summary>
+<p>
+
+**resources/tickets/index.blade.php**
+
+```php
+<a href={{action('TicketsController@create')}}>Create new ticket</a>
+```
+
+**TicketsController.php**
+
+```php
+public function create()
+{
+    return view('tickets.create');
+}
+```
+
+**resources/tickets/create.blade.php**
+
+```php
+@extends('layouts.app')
+
+@section('content')
+<form method="POST" action={{action('TicketsController@store')}}>
+  @csrf
+  <input type="text" name="title" placeholder="Title">
+  <textarea placeholder="Ticket" name="content" cols="30" rows="10"></textarea>
+  <input type="submit" value="Create">
+</form>
+@endsection
+```
+
+</p>
+</details>
+
+### Create form errors
+
+#### Requirements
+
+-   Render form errors
+-   Fill old form values
+-   Redirect to created ticket
+
+#### Hints
+
+-   Use `$errors` object to get errors
+-   Use `old('field_name', defaultValue)` helper to get form values
+-   Use `action` helper to generate a link
+
+<details><summary>Solution</summary>
+<p>
+
+**resources/tickets/create.blade.php**
+
+```php
+@section('content')
+<ul>
+  @foreach($errors->all() as $error)
+  <li>{{$error}}</li>
+  @endforeach
+</ul>
+<form method="POST" action={{action('TicketsController@store')}}>
+  @csrf
+  <input value="{{old('title', '')}}" type="text" name="title" placeholder="Title">
+  <textarea placeholder="Ticket" name="content" cols="30" rows="10">{{old('content', '')}}</textarea>
+  <input type="submit" value="Create">
+</form>
+@endsection
+```
+
+**TicketsController.php**
+
+```php
+public function store(Request $request)
+{
+  $validatedData = $request->validate([
+    'title' => 'required|min:5|unique:tickets',
+    'content' => 'required|max:255'
+  ]);
+
+  $ticket = Ticket::create([
+    'user_id' => Auth::user()->id,
+    'title' => $validatedData['title'],
+    'content' => $validatedData['content']
+  ]);
+
+  return redirect(action('TicketsController@show', ['ticket' => $ticket->id]));
+}
+```
+
+</p>
+</details>
+
+### Show ticket view
+
+#### Requirements
+
+-   Create `show.blade.php` file
+-   Implement `show` method on TicketsController
+    -   Return `show` view passing ticket as parameter
+-   Render ticket
+    -   Title
+    -   Content
+
+#### Hints
+
+-   `view('view_name', ['key' => $value])`
+-   `@extends('view_name')`
+-   `@section('section_name') @endsection`
+
+<details><summary>Solution</summary>
+<p>
+
+**TicketsController.php**
+
+```php
+public function show(Ticket $ticket)
+{
+  return view('tickets.show', ['ticket' => $ticket]);
+}
+```
+
+**resources/tickets/show.blade.php**
+
+```php
+@extends('layouts.app')
+
+@section('content')
+<h3>{{$ticket->title}}</h3>
+<p>
+  {{$ticket->content}}
+</p>
+@endsection
+```
+
+</p>
+</details>
+
+### Delete ticket
+
+#### Requirements
+
+-   Create delete form after ticket title on `show` view
+-   Use delete method
+-   Implement destroy method on `TicketsController`
+-   Redirect back to `index`
+
+#### Hints
+
+-   `@method()`
+-   `@csrf`
+-   `$model->delete()`
+-   `action('ControllerName@method')`
+
+<details><summary>Solution</summary>
+<p>
+
+**resources/tickets/show.blade.php**
+
+```php
+<form method="POST" action="{{action('TicketsController@destroy', ['ticket' => $ticket->id])}}">
+  @csrf
+  @method('DELETE')
+  <input type="submit" value="Delete">
+</form>
+```
+
+**TicketsController.php**
+
+```php
+public function destroy(Ticket $ticket)
+{
+  $ticket->delete();
+  return redirect(action('TicketsController@index'));
+}
+```
+
+</p>
+</details>
+
+### Edit ticket
+
+#### Requirements
+
+-   Add edit link on `show` view
+-   Create `edit.blade.php` file
+-   Implement `edit` method on TicketsController
+    -   Return `edit` view passing ticket as parameter
+-   Render edit form
+    -   Use `PATCH` method
+    -   Title input
+    -   Content
+-   Render errors and old values
+-   Validate and update ticket
+-   Redirect to `show` method
+
+#### Hints
+
+-   `@extend('view_name')`
+-   `action('ControllerName@method')`
+-   `@csrf`
+-   `@method()`
+-   Name attribute on form fields
+-   `request->validate(['field_name' => 'rule1|rule2'])`
+-   `$model->update($validatedData)`
+
+<details><summary>Solution</summary>
+<p>
+
+**resources/tickets/show.blade.php**
+
+```php
+<a href="{{action('TicketsController@edit', ['ticket' => $ticket->id])}}">Edit ticket</a>
+```
+
+**TicketsController.php**
+
+```php
+public function edit(Ticket $ticket)
+{
+  return view('tickets.edit', ['ticket' => $ticket]);
+}
+```
+
+**resources/tickets/edit.blade.php**
+
+```php
+@extends('layouts.app')
+
+@section('content')
+<ul>
+  @foreach($errors->all() as $error)
+  <li>{{$error}}</li>
+  @endforeach
+</ul>
+<form method="POST" action="{{action('TicketsController@update', ['ticket' => $ticket->id])}}">
+  @csrf
+  @method('PATCH')
+  <input name="title" value="{{old('title', $ticket->title)}}" type="text">
+  <textarea name="content" cols="30" rows="10">{{old('content', $ticket->content)}}</textarea>
+  <input type="submit" value="Save">
+</form>
+@endsection
+```
+
+**TicketsController.php**
+
+```php
+public function update(Request $request, Ticket $ticket)
+{
+  $validatedData = request()->validate([
+    'title' => 'required|min:5|unique:tickets,title,' . $ticket->id,
+    'content' => 'required|max:255'
+  ]);
+
+  $ticket->fill($validatedData);
+  $ticket->save();
+
+  return redirect(action('TicketsController@edit', ['ticket' => $ticket->id]));
+}
+```
+
+</p>
+</details>
+
+### Update ticket policy
+
+#### Requirements
+
+-   Implement `update` method on `TicketPolicy`
+-   Render edit link on show view, only if user is authorized to update the ticket
+
+#### Hints
+
+-   `@can('model', $model)...@endcan`
+
+<details><summary>Solution</summary>
+<p>
+
+**TicketPolicy.php**
+
+```php
+public function update(User $user, Ticket $ticket)
+{
+  return $user->id == $ticket->user_id;
+}
+```
+
+**resources/tickets/show.blade.php**
+
+```php
+@can('update', $ticket)
+<a href="{{action('TicketsController@edit', ['ticket' => $ticket->id])}}">Edit ticket</a>
+@endcan
+```
+
+</p>
+</details>
+
+### Reply model
+
+#### Requirements
+
+-   Generate Model and Migration files using artisan
+-   Reply fields
+    -   type: unsignedBigInteger, name: user_id (foreign key)
+    -   type: unsignedBigInteger, name: ticket_id (foreign key)
+    -   type: text, name: reply
+-   Create 2 replies using `Tinker`
+    -   Use `Reply::create()` method
+
+#### Hints
+
+-   `php artisan make:model Name --migration (-m)`
+-   `foreign('field_name')->references('table_id')->on('table')`
+-   `php artisan migrate`
+-   `php artisan tinker`
+-   `protected $fillable = ['field_name', 'field_name']`
+
+<details><summary>Solution</summary>
+<p>
+
+**Reply.php**
+
+```php
+class Ticket extends Model
+{
+    protected $fillable = ['title', 'content', 'user_id'];
+}
+```
+
+**database/migrations/create_replies_table.php**
+
+```php
+Schema::create('replies', function (Blueprint $table) {
+    $table->bigIncrements('id');
+    $table->unsignedBigInteger('ticket_id');
+    $table->foreign('ticket_id')->references('id')->on('tickets');
+    $table->unsignedBigInteger('user_id');
+    $table->foreign('user_id')->references('id')->on('users');
+    $table->text('reply');
+    $table->timestamps();
+});
+```
+
+</p>
+</details>
+
+### Reply model relationships
+
+#### Requirements
+
+-   Create replies relationship on `Ticket` model
+-   Create user relationship on `Reply` model
+
+#### Hints
+
+-   `hasMany(Model::class)`
+-   `belongsTo(Model::class)`
+
+<details><summary>Solution</summary>
+<p>
+
+**Ticket.php**
+
+```php
+class Ticket extends Model
+{
+    protected $fillable = ['title', 'content', 'user_id'];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function replies()
+    {
+        return $this->hasMany(Reply::class);
+    }
+}
+```
+
+**Reply.php**
+
+```php
+class Reply extends Model
+{
+    protected $fillable = ['user_id', 'ticket_id', 'reply'];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+}
+```
+
+</p>
+</details>
+
+### Render replies
+
+#### Requirements
+
+-   Pass paginated (5 per page) replies on `show` view from `TicketsController`
+-   Render replies
+    -   Author name
+    -   Reply (Content)
+    -   Created_at formatted ('D m M Y')
+    -   Pagination links
+
+#### Hints
+
+-   Get relationship data `Model::relationship()->paginated(10)`
+-   `@foreach @endforeach`
+-   `$model->links()` to render pagination links
+
+<details><summary>Solution</summary>
+<p>
+
+**TicketsController.php**
+
+```php
+public function show(Ticket $ticket)
+{
+    $replies = $ticket->replies()->paginate(5);
+    return view('tickets.show', compact('ticket', 'replies'));
+}
+```
+
+**resources/tickets/show.blade.php**
+
+```php
+@extends('layouts.app')
+
+@section('content')
+<h3>{{$ticket->title}}</h3>
+@can('update', $ticket)
+<a href="{{action('TicketsController@edit', ['ticket' => $ticket->id])}}">Edit ticket</a>
+@endcan
+@can('delete', $ticket)
+<form method="POST" action="{{action('TicketsController@destroy', ['ticket' => $ticket->id])}}">
+  @csrf
+  @method('DELETE')
+  <input type="submit" value="Delete">
+</form>
+@endcan
+<p>
+  {{$ticket->content}}
+</p>
+<div>
+  @foreach($replies as $reply)
+  <div>
+    <h5>Author: {{$reply->user->name}}</h5>
+    <strong>{{$reply->created_at->format('D m M Y')}}</strong>
+    <p>{{$reply->reply}}</p>
+  </div>
+  @endforeach
+  {{$replies->links()}}
+</div>
+@endsection
+```
+
+**Reply.php**
+
+```php
+class Reply extends Model
+{
+    protected $fillable = ['user_id', 'ticket_id', 'reply'];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+}
+```
+
+</p>
+</details>
+
+### Store reply
+
+#### Requirements
+
+-   Create replies resource controller
+-   Remove all methods except store and destroy
+-   Register a nested resource route only for store and destroy methods `tickets.replies`
+-   Create new reply form on tickets.show view
+    -   @csrf
+    -   Reply text area
+    -   Action to `RepliesController@store`
+-   Validate reply
+    -   Rules -> required, maximum characters 255
+    -   Save reply
+    -   Handle old values on error
+-   Redirest `back` after save
+
+#### Hints
+
+-   `php artisan make:controller ControllerName --resource --model=ModelName`
+-   `Route::resource('path.nested', 'ControllerName')`
+-   `action('ControllerName@method')`
+-   `$request->validate(['field_name' => 'rule1|rule2'])`
+-   `old('field_name', $defaultValue)`
+-   Redirect back using `back()` helper
+
+<details><summary>Solution</summary>
+<p>
+
+**web.php**
+
+```php
+Route::middleware(['auth'])->group(function () {
+    Route::resource('tickets', 'TicketsController');
+    Route::resource('tickets.replies', 'RepliesController')->only(['store', 'destroy']);
+});
+```
+
+**resources/views/tickets/show.blade.php**
+
+```php
+@extends('layouts.app')
+
+@section('content')
+
+<h3>{{$ticket->title}}</h3>
+@can('update', $ticket)
+<a href="{{action('TicketsController@edit', ['ticket' => $ticket->id])}}">Edit ticket</a>
+@endcan
+@can('delete', $ticket)
+<form method="POST" action="{{action('TicketsController@destroy', ['ticket' => $ticket->id])}}">
+  @csrf
+  @method('DELETE')
+  <input type="submit" value="Delete">
+</form>
+@endcan
+<p>
+  {{$ticket->content}}
+</p>
+// Create Reply Form
+<form method="POST" action="{{action('RepliesController@store', ['ticket' => $ticket->id])}}">
+  @csrf
+  <textarea class="" name="reply" cols="30" rows="10">{{old('reply', '')}}</textarea>
+  <input type="submit" value="Reply">
+</form>
+// End
+<div>
+  @foreach($replies as $reply)
+  <div>
+    <h5>Author: {{$reply->user->name}}</h5>
+    <strong>{{$reply->created_at->format('D m M Y')}}</strong>
+    <p>{{$reply->reply}}</p>
+  </div>
+  @endforeach
+  {{$replies->links()}}
+</div>
+@endsection
+```
+
+**RepliesController**
+
+```php
+public function store(Request $request, Ticket $ticket)
+{
+    $validatedData = $request->validate([
+        'reply' => 'required|max:255'
+    ]);
+
+    Reply::create([
+        'reply' => $validatedData['reply'],
+        'user_id' => Auth::user()->id,
+        'ticket_id' => $ticket->id
+    ]);
+
+    return back();
+}
+```
+
+</p>
+</details>
+
+### Deply reply
+
+#### Requirements
+
+-   Create delete form on each reply
+    -   @csrf
+    -   Delete method
+    -   Action to RepliesController@destroy
+-   Implement destroy method on `RepliesController@destroy`
+-   Redirect back
+
+#### Hints
+
+-   `@method('DELETE')`
+-   `action('ControllerName@method', ['reply' => $id])`
+-   `$model->delete()`
+-   `back()`
+
+<details><summary>Solution</summary>
+<p>
+
+**resources/views/tickets/show.blade.php**
+
+```php
+@extends('layouts.app')
+
+@section('content')
+<h3>{{$ticket->title}}</h3>
+@can('update', $ticket)
+<a href="{{action('TicketsController@edit', ['ticket' => $ticket->id])}}">Edit ticket</a>
+@endcan
+@can('delete', $ticket)
+<form method="POST" action="{{action('TicketsController@destroy', ['ticket' => $ticket->id])}}">
+  @csrf
+  @method('DELETE')
+  <input type="submit" value="Delete">
+</form>
+@endcan
+<p>
+  {{$ticket->content}}
+</p>
+<form method="POST" action="{{action('RepliesController@store', ['ticket' => $ticket->id])}}">
+  @csrf
+  <textarea class="" name="reply" cols="30" rows="10">{{old('reply', '')}}</textarea>
+  <input type="submit" value="Reply">
+</form>
+<div>
+  @foreach($replies as $reply)
+  <div>
+    // DELETE FORM
+    <form method="POST" action="{{action('RepliesController@destroy', ['ticket' => $ticket->id, 'reply' => $reply->id])}}">
+      @csrf
+      @method('DELETE')
+      <input type="submit" value="Delete">
+    </form>
+    // END
+    <h5>Author: {{$reply->user->name}}</h5>
+    <strong>{{$reply->created_at->format('D m M Y')}}</strong>
+    <p>{{$reply->reply}}</p>
+  </div>
+  @endforeach
+  {{$replies->links()}}
+</div>
+@endsection
+```
+
+**RepliesController**
+
+```php
+public function destroy(Ticket $ticket, Reply $reply)
+{
+    $reply->delete();
+    return back();
+}
+```
+
+</p>
+</details>
+
+### Reply policy
+
+#### Requirements
+
+-   Create ReplyPolicy
+-   Register ReplyPolicy on RepliesController
+-   Implement ReplyPolicy methods
+-   Show delete reply button if user is authorized to delete the reply
+
+#### Hints
+
+-   `php artisan make:policy ModelNamePolicy --model=ModelName`
+-   `$this->authorizeResource(ModelName::class, 'model_name');`
+-   `@can('model_name', $model) @endcan`
+
+<details><summary>Solution</summary>
+<p>
+
+**RepliesController**
+
+```php
+public function __construct()
+{
+    $this->authorizeResource(Reply::class, 'reply');
+}
+```
+
+**ReplyPolicy.php**
+
+```php
+class ReplyPolicy
+{
+    use HandlesAuthorization;
+
+    public function viewAny(User $user)
+    {
+        return false;
+    }
+
+    public function view(User $user, Reply $reply)
+    {
+        return false;
+    }
+
+    public function create(User $user)
+    {
+        return true;
+    }
+
+    public function update(User $user, Reply $reply)
+    {
+        return false;
+    }
+
+    public function delete(User $user, Reply $reply)
+    {
+        return $user->id == $reply->user_id;
+    }
+
+    public function restore(User $user, Reply $reply)
+    {
+        return false;
+    }
+
+    public function forceDelete(User $user, Reply $reply)
+    {
+        return false;
+    }
+}
+```
+
+**resources/views/show.blade.php**
+
+```php
+@extends('layouts.app')
+
+@section('content')
+<h3>{{$ticket->title}}</h3>
+@can('update', $ticket)
+<a href="{{action('TicketsController@edit', ['ticket' => $ticket->id])}}">Edit ticket</a>
+@endcan
+@can('delete', $ticket)
+<form method="POST" action="{{action('TicketsController@destroy', ['ticket' => $ticket->id])}}">
+  @csrf
+  @method('DELETE')
+  <input type="submit" value="Delete">
+</form>
+@endcan
+<p>
+  {{$ticket->content}}
+</p>
+<form method="POST" action="{{action('RepliesController@store', ['ticket' => $ticket->id])}}">
+  @csrf
+  <textarea class="" name="reply" cols="30" rows="10">{{old('reply', '')}}</textarea>
+  <input type="submit" value="Reply">
+</form>
+<div>
+  @foreach($replies as $reply)
+  <div>
+    // REPLY POLICY
+    @can('delete', $reply)
+    <form method="POST" action="{{action('RepliesController@destroy', ['ticket' => $ticket->id, 'reply' => $reply->id])}}">
+      @csrf
+      @method('DELETE')
+      <input type="submit" value="Delete">
+    </form>
+    @endcan
+    // END
+    <h5>Author: {{$reply->user->name}}</h5>
+    <strong>{{$reply->created_at->format('D m M Y')}}</strong>
+    <p>{{$reply->reply}}</p>
+  </div>
+  @endforeach
+  {{$replies->links()}}
+</div>
+@endsection
+```
+
+</p>
+</details>
