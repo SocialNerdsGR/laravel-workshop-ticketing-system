@@ -6,7 +6,7 @@
 -   [Route parameter exercise](#route-parameter-exercise)
 -   [Controller exercise](#controller-exercise)
 -   [View exercise](#view-exercise)
--   Login form exercise
+-   [Render list exercise](#render-list-exercise)
 -   Ticketing system app
     -   [Installation](#clone-project)
     -   [Ticket model and migration](#ticket-model-and-migration)
@@ -150,6 +150,88 @@ Route::get('{name}', function(string $name) {
 
 ```php
 <h1>Hello, {{$name}}</h1>
+```
+
+</p>
+</details>
+
+### Render list exercise
+
+#### Requirements
+
+**Star Wars movies data**
+
+```php
+$starWarsMovies = [
+  	'Episode IV – A New Hope (1977)',
+    'Episode V – The Empire Strikes Back (1980)',
+    'Episode VI – Return of the Jedi (1983)',
+    'Episode I – The Phantom Menace (1999)',
+    'Episode II – Attack of the Clones (2002)',
+    'Episode III – Revenge of the Sith (2005)',
+    'Episode VII – The Force Awakens (2015)',
+    'Episode VIII – The Last Jedi (2017)',
+    'Episode IX – The Rise of Skywalker (2019)',
+];
+```
+
+-   Create a blade template and render `Star Wars movies`
+-   Create a route and return the template and pass Star wars movies
+-   Use unordered list element `ul`
+-   Render iteration number before each movie
+-   Add `first-movie` class on the first movie
+-   Render last movie inside a `strong` element
+
+#### Hints
+
+-   Use Route facade
+-   Define `{name}` as parameter
+-   Create a blade file inside `resources/views` folder
+-   Return the blade file from the previous step using `view('view_name', ['name' => $name])` helper
+-   `@foreach($array as $item) @endforeach`
+-   Use `$loop` variable inside foreach
+    -   index
+    -   iteration
+    -   remaining
+    -   first
+    -   last
+
+<details><summary>Solution</summary>
+<p>
+
+**routes/web.php**
+
+```php
+Route::get('movies', function() {
+  $starWarsMovies = [
+  	'Episode IV – A New Hope (1977)',
+    'Episode V – The Empire Strikes Back (1980)',
+    'Episode VI – Return of the Jedi (1983)',
+    'Episode I – The Phantom Menace (1999)',
+    'Episode II – Attack of the Clones (2002)',
+    'Episode III – Revenge of the Sith (2005)',
+    'Episode VII – The Force Awakens (2015)',
+    'Episode VIII – The Last Jedi (2017)',
+    'Episode IX – The Rise of Skywalker (2019)',
+];
+  return view('movies', ['movies' => $starWarsMovies])
+});
+```
+
+**resources/views/hello.blade.php**
+
+```php
+<ul>
+@foreach($movies as $movie)
+<li class="{{$loop->first ? 'first-movie' : ''}}">
+  @if(!$loop->last)
+  {{$loop->iteration}} - {{$movie}}
+  @else
+  <strong>{{$loop->iteration}} - {{$movie}}</strong>
+  @endif
+</li>
+@endforeach
+<ul>
 ```
 
 </p>
