@@ -8,6 +8,7 @@
 -   [View exercise](#view-exercise)
 -   [Render list exercise](#render-list-exercise)
 -   [Layout exercise](#layout-exercise)
+-   [Register form](#register-form)
 -   Ticketing system app
     -   [Installation](#clone-project)
     -   [Ticket model and migration](#ticket-model-and-migration)
@@ -303,6 +304,112 @@ Route::get('movies', function() {
 Route::get('home', function() {
   return view('home');
 });
+```
+
+</p>
+</details>
+
+### Register form
+
+#### Requirements
+
+-   Create a controller named `RegisterController`
+-   Create a view named `register`
+-   Define a `/register` get and post routes
+-   Form requirements
+    -   Name field
+    -   Email field
+    -   Password field
+    -   Password confirmation
+    -   Action to `RegisterController@register`
+    -   Form errors
+    -   Old values
+-   Implement registerForm method on `RegisterController` and return `register` view
+-   Implement register method on `RegisterController`
+    -   Validation
+        -   Name rules -> Required, String, Max 50
+        -   Email rules -> Required, String, Email, Max 255
+        -   Password rules -> Required, Min 8, Confirmed
+-   Create a view named `welcome` and render `Hello, {{$name}}`
+-   Create a method on controller named `welcome`
+-   Define a `/welcome/{name}` route
+-   On succusfull registration redirect to `welcome` and pass the `name` as parameter
+
+#### Hints
+
+-   `php artisan make:controller ControllerName`
+-   Use `Route` facade to define routes
+-   `action('ControllerName@method')`
+-   `@csrf`
+-   Name attribute on form fields
+-   `@method()`
+-   `request->validate(['field_name' => 'rule1|rule2'])`
+-   `redirect(url)`
+-   `action('ControllerName@method', ['param' => $param])`
+
+<details><summary>Solution</summary>
+<p>
+
+**routes/web.php**
+
+```php
+Route::get('/register', 'RegisterController@registerForm');
+Route::post('/register', 'RegisterController@register');
+Route::get('/welcome/{name}', 'RegisterController@welcome');
+```
+
+**app/Http/Controllers/RegisterController**
+
+```php
+class RegisterController extends Controller
+{
+    public function registerForm()
+    {
+        return view('register');
+    }
+
+    public function register(Request $request)
+    {
+        $validatedData = $request->validate(
+            [
+                'name' => ['required', 'string', 'max:255'],
+                'email' => ['required', 'string', 'email', 'max:255'],
+                'password' => ['required', 'string', 'min:8', 'confirmed'],
+            ]
+        );
+
+        return redirect(action('RegisterController@welcome', ['name' => $validatedData['name']]));
+    }
+
+    public function welcome(string $name)
+    {
+        return view('welcome', ['name' => $name]);
+    }
+}
+```
+
+**resources/views/register.blade.php**
+
+```php
+<ul>
+  @foreach($errors->all as $error)
+  <li>{{$error}}</li>
+  @endforeach
+</ul>
+<form action="{{action('RegisterController@register')}}" method="POST">
+  @csrf
+  <input type="text" name="name" placeholder="Name" value="{{old('name', '')}}">
+  <input type="email" name="email" placeholder="Email" value="{{old('email', '')}}">
+  <input type="password" name="password" placeholder="Password" value="{{old('password', '')}}">
+  <input type="password" name="password_confirmation" placeholder="Password confirmation">
+  <input type="submit" value="Register">
+</form>
+```
+
+**resources/views/register.blade.php**
+
+```php
+<h1>Hello, {{$name}}</h1>
 ```
 
 </p>
