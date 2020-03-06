@@ -7,6 +7,7 @@
 -   [Controller exercise](#controller-exercise)
 -   [View exercise](#view-exercise)
 -   [Render list exercise](#render-list-exercise)
+-   [Layout exercise](#layout-exercise)
 -   Ticketing system app
     -   [Installation](#clone-project)
     -   [Ticket model and migration](#ticket-model-and-migration)
@@ -163,7 +164,7 @@ Route::get('{name}', function(string $name) {
 
 ```php
 $starWarsMovies = [
-  	'Episode IV – A New Hope (1977)',
+    'Episode IV – A New Hope (1977)',
     'Episode V – The Empire Strikes Back (1980)',
     'Episode VI – Return of the Jedi (1983)',
     'Episode I – The Phantom Menace (1999)',
@@ -176,7 +177,7 @@ $starWarsMovies = [
 ```
 
 -   Create a blade template and render `Star Wars movies`
--   Create a route and return the template and pass Star wars movies
+-   Create a route, return the template and pass Star wars movies
 -   Use unordered list element `ul`
 -   Render iteration number before each movie
 -   Add `first-movie` class on the first movie
@@ -204,7 +205,7 @@ $starWarsMovies = [
 ```php
 Route::get('movies', function() {
   $starWarsMovies = [
-  	'Episode IV – A New Hope (1977)',
+    'Episode IV – A New Hope (1977)',
     'Episode V – The Empire Strikes Back (1980)',
     'Episode VI – Return of the Jedi (1983)',
     'Episode I – The Phantom Menace (1999)',
@@ -232,6 +233,76 @@ Route::get('movies', function() {
 </li>
 @endforeach
 <ul>
+```
+
+</p>
+</details>
+
+### Layout exercise
+
+#### Requirements
+
+-   Create a view named `layout` and declare 2 sections
+    -   title (Document title)
+    -   content
+-   Include Bootstrap using the CDN link
+-   Create another view named `home`
+    -   Extend `layout` view and override `title` and `content` sections
+    -   Add a button inside `content` section with the classes `btn btn-primary`
+-   Create a route and return the `home` view
+
+#### Hints
+
+-   `@yield('section_name')`
+-   `@extends('view_name')`
+-   `@section('section_name') @endsection`
+-   Bootstrap: `<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">`
+
+<details><summary>Solution</summary>
+<p>
+
+**resources/views/layout.blade.php**
+
+```php
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>@yield('title')</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+</head>
+
+<body>
+        <div>
+            @yield('content')
+        </div>
+    </div>
+</body>
+
+</html>
+```
+
+**resources/views/home.blade.php**
+
+```php
+@extends('layout')
+
+@section('title', 'Home page')
+
+@section('content')
+<button class="btn btn-primary"></button>
+@endsection
+
+```
+
+**routes/web.php**
+
+```php
+Route::get('home', function() {
+  return view('home');
+});
 ```
 
 </p>
