@@ -20,8 +20,6 @@ class TicketsController extends Controller
      */
     public function index()
     {
-        $tickets = Ticket::paginate(10);
-        return view('tickets.index', ['tickets' => $tickets]);
     }
 
     /**
