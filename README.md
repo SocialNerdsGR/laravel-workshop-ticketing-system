@@ -1,7 +1,6 @@
 # Laravel notes
 
 -   [Create a new Laravel project](#new-project)
--   [Routing](#routing)
 -   [Hello world exercise](#hello-world-exercise)
 -   [Route parameter exercise](#route-parameter-exercise)
 -   [Controller exercise](#controller-exercise)
@@ -412,6 +411,7 @@ class RegisterController extends Controller
 
 -   `git clone --branch installation https://github.com/SocialNerdsGR/laravel-workshop-ticketing-system.git ticketing-app`
 -   `cd ticketing-app`
+-   `chmod +x checkout.sh`
 -   `cp .env.example .env`
 -   `composer install`
 -   `php artisan key:generate`
