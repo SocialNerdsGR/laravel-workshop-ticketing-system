@@ -212,7 +212,7 @@ Route::get('movies', function() {
 });
 ```
 
-**resources/views/hello.blade.php**
+**resources/views/movies.blade.php**
 
 ```php
 <ul>
@@ -268,9 +268,8 @@ Route::get('movies', function() {
 </head>
 
 <body>
-        <div>
-            @yield('content')
-        </div>
+    <div>
+        @yield('content')
     </div>
 </body>
 
