@@ -421,7 +421,6 @@ class RegisterController extends Controller
 ### Ticket model and migration
 
 #### Requirements
-
 -   Generate Model and Migration files using artisan
 -   Ticket fields
     -   type: unsignedBigInteger, name: user_id (foreign key)
@@ -480,6 +479,7 @@ class Ticket extends Model
 
 #### Requirements
 
+-   `chmod +x checkout.sh & ./checkout.sh tickets-resource`
 -   Create a new folder named `tickets` inside resources
 -   Create `index.blade.php` file
 -   Implement `index` method on TicketsController
@@ -535,6 +535,7 @@ public function index()
 
 #### Requirements
 
+-   `chmod +x checkout.sh & ./checkout.sh render-tickets`
 -   Create a link on `index.blade.php` targeting create method on TicketsController using `action` helper
 -   Create `create.blade.php` inside tickets folder
 -   Extend layout
@@ -593,6 +594,7 @@ public function create()
 
 #### Requirements
 
+-   `chmod +x checkout.sh & ./checkout.sh ticket-controller-store`
 -   Render form errors
 -   Fill old form values
 -   Redirect to created ticket
@@ -650,7 +652,7 @@ public function store(Request $request)
 ### Show ticket view
 
 #### Requirements
-
+-   `chmod +x checkout.sh & ./checkout.sh ticket-create-form-errors`
 -   Create `show.blade.php` file
 -   Implement `show` method on TicketsController
     -   Return `show` view passing ticket as parameter
@@ -696,6 +698,7 @@ public function show(Ticket $ticket)
 
 #### Requirements
 
+-   `chmod +x checkout.sh & ./checkout.sh ticket-show-view`
 -   Create delete form after ticket title on `show` view
 -   Use delete method
 -   Implement destroy method on `TicketsController`
@@ -738,6 +741,7 @@ public function destroy(Ticket $ticket)
 
 #### Requirements
 
+-   `chmod +x checkout.sh & ./checkout.sh delete-ticket`
 -   Add edit link on `show` view
 -   Create `edit.blade.php` file
 -   Implement `edit` method on TicketsController
@@ -823,6 +827,7 @@ public function update(Request $request, Ticket $ticket)
 
 #### Requirements
 
+-   `chmod +x checkout.sh & ./checkout.sh delete-ticket-policy`
 -   Implement `update` method on `TicketPolicy`
 -   Render edit link on show view, only if user is authorized to update the ticket
 
@@ -857,6 +862,7 @@ public function update(User $user, Ticket $ticket)
 
 #### Requirements
 
+-   `chmod +x checkout.sh & ./checkout.sh update-ticket-policy`
 -   Generate Model and Migration files using artisan
 -   Reply fields
     -   type: unsignedBigInteger, name: user_id (foreign key)
@@ -906,6 +912,7 @@ Schema::create('replies', function (Blueprint $table) {
 
 #### Requirements
 
+-   `chmod +x checkout.sh & ./checkout.sh reply-model`
 -   Create replies relationship on `Ticket` model
 -   Create user relationship on `Reply` model
 
@@ -957,6 +964,7 @@ class Reply extends Model
 
 #### Requirements
 
+-   `chmod +x checkout.sh & ./checkout.sh reply-model-relationships`
 -   Pass paginated (5 per page) replies on `show` view from `TicketsController`
 -   Render replies
     -   Author name
@@ -1036,7 +1044,7 @@ class Reply extends Model
 ### Store reply
 
 #### Requirements
-
+-   `chmod +x checkout.sh & ./checkout.sh latest-replies`
 -   Create replies resource controller
 -   Remove all methods except store and destroy
 -   Register a nested resource route only for store and destroy methods `tickets.replies`
@@ -1134,10 +1142,11 @@ public function store(Request $request, Ticket $ticket)
 </p>
 </details>
 
-### Deply reply
+### Delete reply
 
 #### Requirements
 
+-   `chmod +x checkout.sh & ./checkout.sh store-reply`
 -   Create delete form on each reply
     -   @csrf
     -   Delete method
@@ -1217,6 +1226,7 @@ public function destroy(Ticket $ticket, Reply $reply)
 
 #### Requirements
 
+-   `chmod +x checkout.sh & ./checkout.sh delete-reply`
 -   Create ReplyPolicy
 -   Register ReplyPolicy on RepliesController
 -   Implement ReplyPolicy methods
