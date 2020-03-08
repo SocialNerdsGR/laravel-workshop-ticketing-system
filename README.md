@@ -478,7 +478,7 @@ class Ticket extends Model
 
 ### Render tickets
 
-> chmod +x checkout.sh & ./checkout.sh tickets-resource
+> chmod +x checkout.sh && ./checkout.sh ticket-resource
 
 #### Requirements
 
@@ -535,7 +535,7 @@ public function index()
 
 ### Create Ticket form
 
-> chmod +x checkout.sh & ./checkout.sh render-tickets
+> chmod +x checkout.sh && ./checkout.sh render-tickets
 
 #### Requirements
 
@@ -595,7 +595,7 @@ public function create()
 
 ### Create form errors
 
-> chmod +x checkout.sh & ./checkout.sh ticket-controller-store
+> chmod +x checkout.sh && ./checkout.sh ticket-controller-store
 
 #### Requirements
 
@@ -655,7 +655,7 @@ public function store(Request $request)
 
 ### Show ticket view
 
-> chmod +x checkout.sh & ./checkout.sh ticket-create-form-errors
+> chmod +x checkout.sh && ./checkout.sh ticket-create-form-errors
 
 #### Requirements
 
@@ -702,7 +702,7 @@ public function show(Ticket $ticket)
 
 ### Delete ticket
 
-> chmod +x checkout.sh & ./checkout.sh ticket-show-view
+> chmod +x checkout.sh && ./checkout.sh ticket-show-view
 
 #### Requirements
 
@@ -746,7 +746,7 @@ public function destroy(Ticket $ticket)
 
 ### Edit ticket
 
-> chmod +x checkout.sh & ./checkout.sh delete-ticket
+> chmod +x checkout.sh && ./checkout.sh delete-ticket
 
 #### Requirements
 
@@ -833,7 +833,7 @@ public function update(Request $request, Ticket $ticket)
 
 ### Update ticket policy
 
-> chmod +x checkout.sh & ./checkout.sh delete-ticket-policy
+> chmod +x checkout.sh && ./checkout.sh delete-ticket-policy
 
 #### Requirements
 
@@ -869,7 +869,7 @@ public function update(User $user, Ticket $ticket)
 
 ### Reply model
 
-> chmod +x checkout.sh & ./checkout.sh update-ticket-policy
+> chmod +x checkout.sh && ./checkout.sh update-ticket-policy
 
 #### Requirements
 
@@ -920,7 +920,7 @@ Schema::create('replies', function (Blueprint $table) {
 
 ### Reply model relationships
 
-> chmod +x checkout.sh & ./checkout.sh reply-model
+> chmod +x checkout.sh && ./checkout.sh reply-model
 
 #### Requirements
 
@@ -973,7 +973,7 @@ class Reply extends Model
 
 ### Render replies
 
-> chmod +x checkout.sh & ./checkout.sh reply-model-relationships
+> chmod +x checkout.sh && ./checkout.sh reply-model-relationships
 
 #### Requirements
 
@@ -1055,7 +1055,7 @@ class Reply extends Model
 
 ### Store reply
 
-> chmod +x checkout.sh & ./checkout.sh latest-replies
+> chmod +x checkout.sh && ./checkout.sh latest-replies
 
 #### Requirements
 
@@ -1158,7 +1158,7 @@ public function store(Request $request, Ticket $ticket)
 
 ### Delete reply
 
-> chmod +x checkout.sh & ./checkout.sh store-reply
+> chmod +x checkout.sh && ./checkout.sh store-reply
 
 #### Requirements
 
@@ -1239,7 +1239,7 @@ public function destroy(Ticket $ticket, Reply $reply)
 
 ### Reply policy
 
-> chmod +x checkout.sh & ./checkout.sh delete-reply
+> chmod +x checkout.sh && ./checkout.sh delete-reply
 
 #### Requirements
 
