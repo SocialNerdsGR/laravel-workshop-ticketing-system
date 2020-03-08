@@ -1070,7 +1070,7 @@ class Reply extends Model
     -   Rules -> required, maximum characters 255
     -   Save reply
     -   Handle old values on error
--   Redirest `back` after save
+-   Redirect `back` after save
 
 #### Hints
 
